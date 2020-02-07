@@ -21,9 +21,9 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     git-core \
-    python3.6 \
-    python3.6-dev \
-    python3.6-venv \
+    python3.7 \
+    python3.7-dev \
+    python3.7-venv \
     python3-pip \
     libleveldb-dev \
     libssl-dev \
@@ -35,17 +35,19 @@ RUN apt-get update && apt-get install -y \
 RUN rm -rf /var/lib/apt/lists/*
 
 # neo-python setup: clonse and install dependencies
-RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python
+RUN echo "alias python3=python3.7" >> /root/.bashrc
+RUN git clone https://github.com/CityOfZion/neo-python.git --branch v0.8.2 /neo-python
 WORKDIR /neo-python
 
 # RUN git checkout development
-RUN pip3 install -e .
+RUN python3.7 -m pip install -e .
 RUN wget https://s3.amazonaws.com/neo-experiments/neo-privnet.wallet
 
 # Add the neo-cli package
 ADD ./neo-cli.zip /opt/neo-cli.zip
 ADD ./SimplePolicy.zip /opt/SimplePolicy.zip
 ADD ./ApplicationLogs.zip /opt/ApplicationLogs.zip
+ADD ./RpcSystemAssetTracker.zip /opt/RpcSystemAssetTracker.zip
 
 # Extract and prepare four consensus nodes
 RUN unzip -q -d /opt/node1 /opt/neo-cli.zip
@@ -65,10 +67,17 @@ RUN unzip -q -d /opt/node2/neo-cli /opt/ApplicationLogs.zip
 RUN unzip -q -d /opt/node3/neo-cli /opt/ApplicationLogs.zip
 RUN unzip -q -d /opt/node4/neo-cli /opt/ApplicationLogs.zip
 
+# Extract and prepare RpcSystemAssetTracker plugin
+RUN unzip -q -d /opt/node1/neo-cli /opt/RpcSystemAssetTracker.zip
+RUN unzip -q -d /opt/node2/neo-cli /opt/RpcSystemAssetTracker.zip
+RUN unzip -q -d /opt/node3/neo-cli /opt/RpcSystemAssetTracker.zip
+RUN unzip -q -d /opt/node4/neo-cli /opt/RpcSystemAssetTracker.zip
+
 # Remove zip neo-cli package
 RUN rm /opt/neo-cli.zip
 RUN rm /opt/SimplePolicy.zip
 RUN rm /opt/ApplicationLogs.zip
+RUN rm /opt/RpcSystemAssetTracker.zip
 
 # Create chain data directories
 RUN mkdir -p /opt/chaindata/node1
