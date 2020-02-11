@@ -43,7 +43,7 @@ NEO_PLUGIN_ZIPFN="SimplePolicy.zip"
 NEO_PLUGIN_URL="https://github.com/neo-project/neo-plugins/releases/download/v${NEO_PLUGINS_VERSION}/SimplePolicy.zip"
 NEO_APPLOG_ZIPFN="ApplicationLogs.zip"
 NEO_APPLOG_URL="https://github.com/neo-project/neo-plugins/releases/download/v${NEO_PLUGINS_VERSION}/ApplicationLogs.zip"
-NEO_TRACKER_ZIPFN="ApplicationLogs.zip"
+NEO_TRACKER_ZIPFN="RpcSystemAssetTracker.zip"
 NEO_TRACKER_URL="https://github.com/neo-project/neo-plugins/releases/download/v${NEO_PLUGINS_VERSION}/RpcSystemAssetTracker.zip"
 
 
